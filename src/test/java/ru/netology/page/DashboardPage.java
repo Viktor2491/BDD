@@ -1,35 +1,32 @@
 package ru.netology.page;
+
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import lombok.val;
+
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 
-    public class DashboardPage {
-        private SelenideElement heading = $("[data-test-id=dashboard]");
-        private ElementsCollection cards = $$(".list__item");
-        private final String balanceStart = "баланс: ";
-        private final String balanceFinish = " р.";
+public class DashboardPage {
+    private SelenideElement heading = $("[data-test-id=dashboard]");
+    private ElementsCollection topUpButtons = $$("[data-test-id=action-deposit]");
+    public SelenideElement card1 = $("[data-test-id='92df3f1c-a033-48e6-8390-206f6b1f56c0']");
+    public SelenideElement card2 = $("[data-test-id='0f3f5c2a-249e-4c3d-8287-09f7a039391d']");
 
-        public DashboardPage() {
-            heading.shouldBe(Condition.visible);
-        }
-
-        public int getCardsBalance(String lastDigits) {
-            val balance = cards.findBy(Condition.text(lastDigits)).text();
-            val start = balance.indexOf(balanceStart);
-            val finish = balance.indexOf(balanceFinish);
-            val value = balance.substring(start + balanceStart.length(), finish).trim();
-            return Integer.parseInt(value);
-        }
-
-        public UpLoadPage moneyTransferClickButton(String lastDigits) {
-            val uploadButton = cards.findBy(Condition.text(lastDigits)).$("[data-test-id=action-deposit]");
-            uploadButton.click();
-            return new UpLoadPage();
-        }
+    public DashboardPage() {
+        heading.shouldBe(Condition.visible);
     }
+
+    public UpLoadPage moneyTransferClickButton(SelenideElement card) {
+        card.find("button[data-test-id=action-deposit]").click();
+        return new UpLoadPage();
+    }
+
+    public int getCardsBalance(SelenideElement card) {
+        String[] text = card.innerText().split(" ");
+        return Integer.parseInt(text[5]);
+    }
+}
 

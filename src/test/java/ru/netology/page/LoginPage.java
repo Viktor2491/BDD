@@ -1,4 +1,5 @@
 package ru.netology.page;
+
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import ru.netology.data.DataHelper;
@@ -13,7 +14,7 @@ public class LoginPage {
     private SelenideElement loginField = $("[data-test-id=login] input");
     private SelenideElement passwordField = $("[data-test-id=password] input");
     private SelenideElement loginButton = $("[data-test-id=action-login]");
-    private SelenideElement errorBox  = $("[data-test-id=error-notification]");
+    private SelenideElement errorBox = $("[data-test-id=error-notification]");
 
     public VerificationPage validLogin(DataHelper.AuthInfo info) {
         loginField.setValue(info.getLogin());
@@ -27,7 +28,7 @@ public class LoginPage {
         passwordField.setValue(info.getPassword());
         sleep(15000);
         loginButton.click();
-        errorBox.shouldBe(Condition.visible, Duration.ofSeconds(5));
+        errorBox.shouldBe(Condition.visible, Duration.ofSeconds(15));
         $("[data-test-id=error-notification]>.notification__title")
                 .shouldHave(text("Ошибка"));
         $("[data-test-id=error-notification]>.notification__content")
