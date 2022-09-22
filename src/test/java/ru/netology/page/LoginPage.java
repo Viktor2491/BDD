@@ -8,7 +8,7 @@ import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.sleep;
+
 
 public class LoginPage {
     private SelenideElement loginField = $("[data-test-id=login] input");
@@ -26,7 +26,6 @@ public class LoginPage {
     public void invalidLogin(DataHelper.AuthInfo info) {
         loginField.setValue(info.getLogin());
         passwordField.setValue(info.getPassword());
-        sleep(15000);
         loginButton.click();
         errorBox.shouldBe(Condition.visible, Duration.ofSeconds(15));
         $("[data-test-id=error-notification]>.notification__title")
@@ -35,3 +34,4 @@ public class LoginPage {
                 .shouldHave(text("Ошибка! Неверно указан логин или пароль"));
     }
 }
+

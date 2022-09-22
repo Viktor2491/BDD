@@ -1,10 +1,8 @@
 package ru.netology.data;
 
-import com.github.javafaker.Faker;
 import lombok.Value;
 
 public class DataHelper {
-    private static Faker faker = new Faker();
 
     private DataHelper() {
     }
@@ -16,12 +14,10 @@ public class DataHelper {
     }
 
     public static AuthInfo getAuthInfo() {
-
         return new AuthInfo("vasya", "qwerty123");
     }
 
-    public static AuthInfo getOtherAuthInfo(AuthInfo original) {
-
+    public static AuthInfo getOtherAuthInfo(AuthInfo authInfo) {
         return new AuthInfo("sasha", "asdf456");
     }
 
@@ -44,11 +40,11 @@ public class DataHelper {
     }
 
     public static CardInfo getFirstCard() {
-        return new CardInfo("5559 0000 0000 0001");
+        return new CardInfo("5559000000000001");
     }
 
     public static CardInfo getSecondCard() {
-        return new CardInfo("5559 0000 0000 0002");
+        return new CardInfo("5559000000000002");
     }
 
 }

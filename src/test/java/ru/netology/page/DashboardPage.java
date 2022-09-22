@@ -3,30 +3,38 @@ package ru.netology.page;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-
+import lombok.val;
+import ru.netology.data.DataHelper;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
-
+import static com.codeborne.selenide.Condition.visible;
 
 public class DashboardPage {
     private SelenideElement heading = $("[data-test-id=dashboard]");
-    private ElementsCollection topUpButtons = $$("[data-test-id=action-deposit]");
-    public SelenideElement card1 = $("[data-test-id='92df3f1c-a033-48e6-8390-206f6b1f56c0']");
-    public SelenideElement card2 = $("[data-test-id='0f3f5c2a-249e-4c3d-8287-09f7a039391d']");
+    private ElementsCollection cards = $$(".list__item");
+    private final String balanceStart = "баланс: ";
+    private final String balanceFinish = " р.";
 
     public DashboardPage() {
-        heading.shouldBe(Condition.visible);
+        heading.shouldBe(visible);
     }
 
-    public UpLoadPage moneyTransferClickButton(SelenideElement card) {
-        card.find("button[data-test-id=action-deposit]").click();
+    public int getCardsBalance(DataHelper.CardInfo cardInfo) {
+        val text = cards.findBy(Condition.text(cardInfo.getCardNumber().substring(12, 16))).getText();
+        return extractBalance(text);
+    }
+
+    private int extractBalance(String text) {
+        var start = text.indexOf(balanceStart);
+        var finish = text.indexOf(balanceFinish);
+        var value = text.substring(start + balanceStart.length(), finish);
+        return Integer.parseInt(value);
+    }
+
+
+    public UpLoadPage moneyTransferClickButton(DataHelper.CardInfo cardInfo) {
+        cards.findBy(Condition.text(cardInfo.getCardNumber().substring(12, 16))).$("button").click();
         return new UpLoadPage();
     }
-
-    public int getCardsBalance(SelenideElement card) {
-        String[] text = card.innerText().split(" ");
-        return Integer.parseInt(text[5]);
-    }
 }
-

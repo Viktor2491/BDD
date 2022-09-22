@@ -17,7 +17,7 @@ public class AuthorizationTest {
 
     @Test
     @DisplayName("Успешная авторизация")
-    void shouldAutorization() {
+    void shouldAuthorization() {
         val loginPage = new LoginPage();
         val authInfo = DataHelper.getAuthInfo();
         val verificationPage = loginPage.validLogin(authInfo);
@@ -42,6 +42,4 @@ public class AuthorizationTest {
         val badVerificationCode = DataHelper.getOtherVerificationCodeFor(authInfo);
         verificationPage.invalidVerify(badVerificationCode);
     }
-
-
 }

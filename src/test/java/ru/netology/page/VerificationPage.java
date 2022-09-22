@@ -6,7 +6,6 @@ import ru.netology.data.DataHelper;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.sleep;
 import static java.time.Duration.ofSeconds;
 
 public class VerificationPage {
@@ -26,7 +25,6 @@ public class VerificationPage {
 
     public void invalidVerify(DataHelper.VerificationCode verificationCode) {
         codeField.setValue(verificationCode.getCode());
-        sleep(15000);
         verifyButton.click();
         errorBox.shouldBe(Condition.visible, ofSeconds(15));
         $("[data-test-id=error-notification]>.notification__title")
